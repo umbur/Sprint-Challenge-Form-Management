@@ -14,8 +14,8 @@ const RegisterForm = ({ errors, touched, values, handleSubmit, status }) => {
       <div>
         <h1>User Form</h1>
         <Form>
-          <Field type="text" name="name" placeholder="User Name" />
-          {touched.name && errors.name && (<p className="error">{errors.name}</p>)}
+          <Field type="text" name="username" placeholder="User Name" />
+          {touched.username && errors.username && (<p className="error">{errors.username}</p>)}
           <Field type="password" name="password" placeholder="Password" />
           {touched.password && errors.password && (
           <p className="error">{errors.password}</p>)}
@@ -23,7 +23,6 @@ const RegisterForm = ({ errors, touched, values, handleSubmit, status }) => {
           <Field type="checkbox" name="tos" checked={values.tos} />
           <button type="submit">Submit!</button>
         </Form>
-        {users.map(user => {return <h1> {user.name}</h1>}) }
       </div>
 
      
@@ -31,19 +30,20 @@ const RegisterForm = ({ errors, touched, values, handleSubmit, status }) => {
   };
 
   const FormikUserForm = withFormik({
-    mapPropsToValues({ name, password }) {
+    mapPropsToValues({ username, password }) {
       return {
-        name: name || '',
+        username: username || '',
         password: password || '',
       };
     },
 
     validationSchema: Yup.object().shape({
-        name: Yup.string().required(),
+        username: Yup.string().required(),
         password: Yup.string().required(),
       }),
   
     handleSubmit(values, { setStatus }) {
+        //console.log('values:', values)
         axios
           .post('http://localhost:5000/api/register', values)
           .then(res => {
